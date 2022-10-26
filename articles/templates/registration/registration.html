@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{{ STATIC_URL }}/static/css/reg_log.css">
+    <meta charset="UTF-8">
+    <title>Регистрация</title>
+</head>
+<body>
+    <div class="reg">
+        <form method="POST" action="{% url 'registration' %}">
+            {% csrf token%}
+            {{ form }}
+        <input type="submit" value="Зарегистрироваться">
+    </form>
+    </div>
+</body>
+</html>
