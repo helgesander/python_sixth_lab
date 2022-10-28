@@ -6,16 +6,9 @@
     <title>Регистрация</title>
 </head>
 <body>
-    <form method="POST" action="{% url 'registration' %}"> {% csrf token%}
-        <div>
-            <input type="text" name="login" placeholder="Логин" value="{{}}">
-        </div>
-        <div>
-            <input type="text" name="email" placeholder="Почта" value="{{}}">
-        </div>
-        <div>
-            <input type="text" name="password" placeholder="Пароль" value="{{}}">
-        </div>
+    <form method="POST" action="{% url 'registration' %}">
+        {% csrf_token%}
+        {{ form }}
         <input type="submit" value="Зарегистрироваться">
     </form>
 </body>
