@@ -1,9 +1,14 @@
 body {
     background: #4682B4;
     font-family: Tahoma, Arial, sans-serif;
+    font-size: 150%;
     color: #ffffff;
 
 }
-.reg form {
+
+#button {
+    margin-top: 20px;
+    height: 50px;
+    width: 200px;
     align: center;
 }

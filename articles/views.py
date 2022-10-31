@@ -52,10 +52,10 @@ def error_registration(request):
 
 def registration(request):
     if request.method == "POST":
-        new_user = UserRegistrationForm(request.POST)
-        if new_user.is_valid():
-            new_user.save()
-
+        form = UserRegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return render(request, 'archive.html', {'posts': Article.objects.all()})
     else:
         form = UserRegistrationForm()
     context = {

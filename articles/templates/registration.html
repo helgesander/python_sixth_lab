@@ -1,15 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="{{ STATIC_URL }}/static/css/reg.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}/static/css/reg_log.css">
     <meta charset="UTF-8">
     <title>Регистрация</title>
 </head>
 <body>
+    <h1 align="center">Регистрация</h1>
     <form method="POST" action="{% url 'registration' %}">
         {% csrf_token%}
-        {{ form }}
-        <input type="submit" value="Зарегистрироваться">
+        <div class="form" align="center">
+            <table>
+                {{ form.as_table }}
+            </table>
+        </div>
+        <input id="button" align="center" type="submit" value="Зарегистрироваться">
     </form>
 </body>
 </html>

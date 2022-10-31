@@ -12,11 +12,16 @@ class UserRegistrationForm(forms.ModelForm):
     email = forms.EmailField(label="Email", max_length=100)
     password = forms.CharField(label="Пароль", widget=forms.PasswordInput)
 
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'password')
+
     def check(self):
         try:
             User.objects.get(username=self.username)
         except User.DoesNotExist:
             print("Пользователь с таким логином уже существует")
+        return User.objects.get(username=self.username)
 
     def save(self, commit=True):
         user = User.objects.create_user(
@@ -30,6 +35,9 @@ class UserRegistrationForm(forms.ModelForm):
 class UserLoginForm(forms.Form):
     username = forms.CharField(label="Логин", max_length=100, error_messages={'empty' : 'Введите логин! '})
     password = forms.CharField(label="Пароль", widget=forms.PasswordInput, error_messages={'empty': 'Введите пароль! '})
+
+    def login(self):
+        pass
 
 
 
