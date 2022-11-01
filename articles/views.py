@@ -3,7 +3,7 @@ from django.shortcuts import render
 from .models import Article
 from django.http import Http404
 from django.shortcuts import redirect
-from .forms import UserRegistrationForm
+from .forms import UserRegistrationForm, UserLoginForm
 
 
 def get_article(request, article_id):
@@ -55,7 +55,7 @@ def registration(request):
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
             form.save()
-            return render(request, 'archive.html', {'posts': Article.objects.all()})
+            return render(request, 'login.html', {})
     else:
         form = UserRegistrationForm()
     context = {
@@ -63,6 +63,19 @@ def registration(request):
     }
     return render(request, 'registration.html', context)
 
+
+def login(request):
+    if request.method == "POST":
+        form = UserLoginForm(request.POST)
+        if form.is_valid():
+            form.login()
+            return render(request, 'archive.html', {'posts': Article.objects.all()})
+    else:
+        form = UserLoginForm()
+    context = {
+        'form': form
+    }
+    return render(request, 'login.html', context)
 
 
 

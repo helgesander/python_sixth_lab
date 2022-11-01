@@ -8,6 +8,7 @@
 <body>
     {% if user.is_authenticated %}
         <p> Hello, {{ user.username }}! </p>
+    {% endif %}
   <div class="header">
       <img src="{{ STATIC_URL }}/static/logo.png"/>
       <ul id="navbar">
