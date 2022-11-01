@@ -38,8 +38,18 @@ class UserLoginForm(forms.Form):
     username = forms.CharField(label="Логин", max_length=100, error_messages={'empty' : 'Введите логин! '})
     password = forms.CharField(label="Пароль", widget=forms.PasswordInput, error_messages={'empty': 'Введите пароль! '})
 
+    class Meta:
+        model = User
+        fields = ('username', 'password')
+
+    def clean(self):
+        username = self.cleaned_data.get('username')
+        password = self.cleaned_data.get('password')
+        return [username, password]
+
     def login(self):
-        user = authenticate(user=self.username, password=self.password)
+        clean_user = self.clean()
+        user = authenticate(user=clean_user[0], password=clean_user[1])
         if user is not None:
             login(request, user=user)
         else:

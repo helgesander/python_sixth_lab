@@ -4,6 +4,10 @@ from .models import Article
 from django.http import Http404
 from django.shortcuts import redirect
 from .forms import UserRegistrationForm, UserLoginForm
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
+from django.contrib.auth import login
+
 
 
 def get_article(request, article_id):
@@ -45,11 +49,7 @@ def create_post(request):
     else:
         raise Http404
 
-
-def error_registration(request):
-    return render(request, 'error_registration.html')
-
-
+'''
 def registration(request):
     if request.method == "POST":
         form = UserRegistrationForm(request.POST)
@@ -76,6 +76,45 @@ def login(request):
         'form': form
     }
     return render(request, 'login.html', context)
+    '''
+
+def login(request):
+    if request.method == "POST":
+        form = {
+            'username': request.POST['username'], 'password': request.POST['password'],
+        }
+        if form['username'] and form['password']:
+            if not User.objects.filter(username=form['username']):
+                print('Такого пользователя не существует!')
+            else:
+                user = authenticate(username=form['username'], password=form['password'])
+                login(request, user)
+        else:
+            form['error'] = u'Не все поля заполнены'
+            return render(request, 'login.html', {'form': form})
+    else:
+        return render(request, 'login.html', {})
+
+def logout(request):
+    pass
+
+def registration(request):
+    if request.method == "POST":
+        form =  {
+            'username': request.POST['username'],
+            'email': request.POST['email'],
+            'password': request.POST['password']
+        }
+        if form['username'] and form['email'] and form['password']:
+            User.objects.create_user(form['username'], form['email'], form['password'])
+            return redirect('archive')
+        else:
+            form['error'] = u'Не все поля заполнены!'
+        return render(request, 'registration.html', {'form': form})
+    else:
+        return render(request, 'archive.html', {})
+
+
 
 
 
