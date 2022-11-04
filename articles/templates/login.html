@@ -6,17 +6,31 @@
     <title>Вход</title>
 </head>
 <body>
-    <div class="reg" align="center">
+    {% if form.does_not_exist %}
+        <p>{{ form.does_not_exist }}</p>
+    {% elif form.bad_login %}
+        <p> {{ form.bad_login }} </p>
+    {% elif form.error %}
+        <p> {{ form.error }} </p>
+    {% endif %}
+    <div class="login" align="center">
         <h1>Вход</h1>
         <form method="POST" action="{% url 'login' %}">
             {% csrf_token %}
-            <div class="form" align="center">
-                <table>
-
-                </table>
+            <div class="user-box">
+                <label>Логин</label>
+                <input type="text" name="username" required="">
             </div>
-        <input type="submit" value="Вход">
-    </form>
+            <div class="user-box">
+                <label>Пароль</label>
+                <input type="password" name="password" required="">
+            </div>
+            <div>
+                <span></span>
+                <span></span>
+                <input id="button" type="button" name="log" value="Войти">
+            </div>
+        </form>
     </div>
 </body>
 </html>

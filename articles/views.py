@@ -3,7 +3,6 @@ from django.shortcuts import render
 from .models import Article
 from django.http import Http404
 from django.shortcuts import redirect
-from .forms import UserRegistrationForm, UserLoginForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
@@ -49,35 +48,6 @@ def create_post(request):
     else:
         raise Http404
 
-'''
-def registration(request):
-    if request.method == "POST":
-        form = UserRegistrationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return render(request, 'login.html', {})
-    else:
-        form = UserRegistrationForm()
-    context = {
-        'form': form
-    }
-    return render(request, 'registration.html', context)
-
-
-def login(request):
-    if request.method == "POST":
-        form = UserLoginForm(request.POST)
-        if form.is_valid():
-            form.login()
-            return render(request, 'archive.html', {'posts': Article.objects.all()})
-    else:
-        form = UserLoginForm()
-    context = {
-        'form': form
-    }
-    return render(request, 'login.html', context)
-    '''
-
 def login(request):
     if request.method == "POST":
         form = {
@@ -85,10 +55,13 @@ def login(request):
         }
         if form['username'] and form['password']:
             if not User.objects.filter(username=form['username']):
-                print('Такого пользователя не существует!')
+                form['does_not_exist'] = u'Такого пользователя не существует'
             else:
                 user = authenticate(username=form['username'], password=form['password'])
-                login(request, user)
+                if user is not None:
+                    login(request, user)
+                else:
+                    form['bad_login'] = u'Аутентификация не прошла успешно, попробуйте позднее'
         else:
             form['error'] = u'Не все поля заполнены'
             return render(request, 'login.html', {'form': form})

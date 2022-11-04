@@ -25,5 +25,4 @@ urlpatterns = [
     path('article/error', views.create_error, name="error_create_article"),
     path('registration/', views.registration, name="registration"),
     path('login/', views.login, name='login'),
-    path('registration/error', views.error_registration, name="error_registration")
 ]
