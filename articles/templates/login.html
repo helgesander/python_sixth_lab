@@ -6,31 +6,22 @@
     <title>Вход</title>
 </head>
 <body>
-    {% if form.does_not_exist %}
-        <p>{{ form.does_not_exist }}</p>
-    {% elif form.bad_login %}
-        <p> {{ form.bad_login }} </p>
-    {% elif form.error %}
-        <p> {{ form.error }} </p>
-    {% endif %}
-    <div class="login" align="center">
-        <h1>Вход</h1>
-        <form method="POST" action="{% url 'login' %}">
+    <div class="content">
+        <div class="header">
+            <div class="navigation">
+                <p><a href="{% url 'login' %}">Войти</a></p>
+                <p><a href="{% url 'archive' %}">Все статьи</a></p>
+            </div>
+        </div>
+        <form method="POST">
             {% csrf_token %}
-            <div class="user-box">
-                <label>Логин</label>
-                <input type="text" name="username" required="">
-            </div>
-            <div class="user-box">
-                <label>Пароль</label>
-                <input type="password" name="password" required="">
-            </div>
-            <div>
-                <span></span>
-                <span></span>
-                <input id="button" type="button" name="log" value="Войти">
-            </div>
+            <h1>Вход</h1>
+            <p><input type="text" name="username" placeholder="Введите имя пользователя" value="{{ form.username }}"></p>
+            <p><input type="text" name="email" placeholder="Введите почту" value="{{ form.email }}"></p>
+            <p><input type="password" name="password" placeholder="Введите пароль" value="{{ form.password }}"></p>
+            <p><input type="submit" value="Зарегестрироваться"></p>
         </form>
     </div>
+    <p class="error"> {{ form.error }} </p>
 </body>
 </html>
