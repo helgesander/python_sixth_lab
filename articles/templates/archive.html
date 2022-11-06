@@ -12,12 +12,10 @@
   <div class="header">
       <img src="{{ STATIC_URL }}/static/logo.png"/>
       <ul id="navbar">
-          <li><a href="login/">Вход</a></li>
-          <li><a href="registration/">Регистрациия</a></li>
+          {% for description in links %}
+            <p><a href="{{ description.ref }}">{{ description.text }}</a></p>
+          {% endfor %}
       </ul>
-  </div>
-  <div class="create-post" align="right">
-      <a href="/article/new">Создать статью</a>
   </div>
   <div class="archive">
       {% for post in posts %}

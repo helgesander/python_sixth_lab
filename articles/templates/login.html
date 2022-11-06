@@ -6,22 +6,27 @@
     <title>Вход</title>
 </head>
 <body>
-    <div class="content">
-        <div class="header">
-            <div class="navigation">
-                <p><a href="{% url 'login' %}">Войти</a></p>
-                <p><a href="{% url 'archive' %}">Все статьи</a></p>
-            </div>
+    <div id="container_demo" >
+    <div id="wrapper">
+        <div id="login" class="animate form">
+            <form action="{% url 'login'%}" method="POST">
+                {% csrf_token %}
+                <h1>Log in</h1>
+                <p>
+                    <label for="username" class="uname" data-icon="u" > Your email or username </label>
+                    <input id="username" name="username" required="required" type="text" placeholder="Логин"/>
+                </p>
+                <p>
+                    <label for="password" class="youpasswd" data-icon="p"> Your password </label>
+                    <input id="password" name="password" required="required" type="password" placeholder="Пароль" />
+                </p>
+                <p class="login button">
+                    <input type="submit" value="Login" />
+                </p>
+            </form>
         </div>
-        <form method="POST">
-            {% csrf_token %}
-            <h1>Вход</h1>
-            <p><input type="text" name="username" placeholder="Введите имя пользователя" value="{{ form.username }}"></p>
-            <p><input type="text" name="email" placeholder="Введите почту" value="{{ form.email }}"></p>
-            <p><input type="password" name="password" placeholder="Введите пароль" value="{{ form.password }}"></p>
-            <p><input type="submit" value="Зарегестрироваться"></p>
-        </form>
     </div>
+</div>
     <p class="error"> {{ form.error }} </p>
 </body>
 </html>

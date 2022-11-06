@@ -6,15 +6,30 @@
     <title>Регистрация</title>
 </head>
 <body>
-    <h1 align="center">Регистрация</h1>
-    <form method="POST" action="{% url 'registration' %}">
-        {% csrf_token%}
-        <div class="form" align="center">
-            <table>
-                {{ form.as_table }}
-            </table>
+    <div id="subscribe" class="animate form">
+            <form action="{% url 'registration'%}" method="POST">
+                {% csrf_token %}
+                <h1> Sign up </h1>
+                <p>
+                    <label for="usernamesignup" class="uname" data-icon="u">Your username</label>
+                    <input id="usernamesignup" name="usernamesignup" required="required" type="text" placeholder="Логин" />
+                </p>
+                <p>
+                    <label for="emailsignup" class="youmail" data-icon="e" > Your email</label>
+                    <input id="emailsignup" name="emailsignup" required="required" type="text" placeholder="Почта"/>
+                </p>
+                <p>
+                    <label for="passwordsignup" class="youpasswd" data-icon="p">Your password </label>
+                    <input id="passwordsignup" name="passwordsignup" required="required" type="password" placeholder="Пароль"/>
+                </p>
+                <p>
+                    <label for="passwordsignup_confirm" class="youpasswd" data-icon="p">Please confirm your password </label>
+                    <input id="passwordsignup_confirm" name="passwordsignup_confirm" required="required" type="password" placeholder="Пароль"/>
+                </p>
+                <p class="signin button">
+                    <input type="submit" value="Sign up"/>
+                </p>
+            </form>
         </div>
-        <input id="button" align="center" type="submit" value="Зарегистрироваться">
-    </form>
 </body>
 </html>

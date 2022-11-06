@@ -5,18 +5,3 @@ body {
     color: #ffffff;
 
 }
-
-#button {
-    margin-top: 20px;
-    height: 50px;
-    width: 100px;
-    font-size: 150%;
-}
-.login form {
-}
-
-input {
-    font-size: 120%;
-    width: 70px;
-    height: 40px;
-}

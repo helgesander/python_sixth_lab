@@ -5,7 +5,7 @@ from django.http import Http404
 from django.shortcuts import redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 
 
 
@@ -17,10 +17,17 @@ def get_article(request, article_id):
         raise Http404
 
 def archive(request):
-    return render(request, 'archive.html', {"posts": Article.objects.all()})
-
-def create_error(request):
-    return render(request, 'error.html')
+    if request.user.is_authenticated:
+        link_list = [
+            {"text": "Выход из аккаунта", "ref": "/logout"},
+            {"text": "Создать статью", "ref": "article/new"}
+        ]
+    else:
+        link_list = [
+            {"text": "Вход", "ref": "/login"},
+            {"text": "Регистрация", "ref": "/registration"}
+        ]
+    return render(request, 'archive.html', {"posts": Article.objects.all(), "links": link_list})
 
 def create_post(request):
     if not request.user.is_anonymous:
@@ -48,32 +55,33 @@ def create_post(request):
     else:
         raise Http404
 
-def login(request):
+def login_user(request):
     if request.method == "POST":
         form = {
-            'username': request.POST['username'], 'password': request.POST['password'],
+            'username': request.POST['username'],
+            'password': request.POST['password']
         }
         if form['username'] and form['password']:
-            if not User.objects.filter(username=form['username']):
-                form['does_not_exist'] = u'Такого пользователя не существует'
+            user = authenticate(username=form['username'], password=form['password'])
+            if user is None:
+                form['error'] = u'Такого пользователя не существует'
             else:
-                user = authenticate(username=form['username'], password=form['password'])
-                if user is not None:
-                    login(request, user)
-                else:
-                    form['bad_login'] = u'Аутентификация не прошла успешно, попробуйте позднее'
+                #user = authenticate(username=form['username'], password=form['password'])
+                login(request, user)
+                return redirect('archive')
         else:
-            form['error'] = u'Не все поля заполнены'
+            form['errors'] = u'Не все поля заполнены'
             return render(request, 'login.html', {'form': form})
     else:
         return render(request, 'login.html', {})
 
-def logout(request):
-    pass
+def logout_user(request):
+    logout(request)
+    return redirect('archive')
 
 def registration(request):
     if request.method == "POST":
-        form =  {
+        form = {
             'username': request.POST['username'],
             'email': request.POST['email'],
             'password': request.POST['password']
@@ -83,17 +91,18 @@ def registration(request):
             #return redirect('archive')
             try:
                 User.objects.get(username=form['username'])
-                form['error'] = u"Имя пользователя занято"
-                return render(request, 'registration.html', {'form': form})
+                User.objects.get(email=form['email'])
+                form['errors'] = u"Имя пользователя или почта уже заняты"
+                #return render(request, 'registration.html', {'form': form})
             except User.DoesNotExist:
                 User.objects.create_user(form['username'], form['email'], form['password'])
                 login(request, authenticate(request, username=form['username'], password=form['password']))
-                return redirect('archive')
+                return
         else:
-            form['error'] = u'Не все поля заполнены!'
+            form['errors'] = u'Не все поля заполнены!'
         return render(request, 'registration.html', {'form': form})
     else:
-        return render(request, 'archive.html', {})
+        return render(request, 'registration.html', {})
 
 
 
