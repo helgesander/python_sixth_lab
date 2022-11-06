@@ -10,21 +10,18 @@
             <form action="{% url 'registration'%}" method="POST">
                 {% csrf_token %}
                 <h1> Sign up </h1>
+                <p>{{ form.errors }}</p>
                 <p>
-                    <label for="usernamesignup" class="uname" data-icon="u">Your username</label>
-                    <input id="usernamesignup" name="usernamesignup" required="required" type="text" placeholder="Логин" />
+                    <label class="uname" data-icon="u">Your username</label>
+                    <input name="username" required="required" type="text" placeholder="Логин" />
                 </p>
                 <p>
-                    <label for="emailsignup" class="youmail" data-icon="e" > Your email</label>
-                    <input id="emailsignup" name="emailsignup" required="required" type="text" placeholder="Почта"/>
+                    <label class="youmail" data-icon="e" > Your email</label>
+                    <input name="email" required="required" type="text" placeholder="Почта"/>
                 </p>
                 <p>
-                    <label for="passwordsignup" class="youpasswd" data-icon="p">Your password </label>
-                    <input id="passwordsignup" name="passwordsignup" required="required" type="password" placeholder="Пароль"/>
-                </p>
-                <p>
-                    <label for="passwordsignup_confirm" class="youpasswd" data-icon="p">Please confirm your password </label>
-                    <input id="passwordsignup_confirm" name="passwordsignup_confirm" required="required" type="password" placeholder="Пароль"/>
+                    <label class="youpasswd" data-icon="p">Your password </label>
+                    <input name="password" type="password" placeholder="Пароль"/>
                 </p>
                 <p class="signin button">
                     <input type="submit" value="Sign up"/>

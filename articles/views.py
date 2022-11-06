@@ -65,8 +65,8 @@ def login_user(request):
             user = authenticate(username=form['username'], password=form['password'])
             if user is None:
                 form['error'] = u'Такого пользователя не существует'
+                return render(request, 'login.html', {'form': form})
             else:
-                #user = authenticate(username=form['username'], password=form['password'])
                 login(request, user)
                 return redirect('archive')
         else:
@@ -86,18 +86,15 @@ def registration(request):
             'email': request.POST['email'],
             'password': request.POST['password']
         }
-        if form['username'] and form['email'] and form['password']:
-            #User.objects.create_user(form['username'], form['email'], form['password'])
-            #return redirect('archive')
+        if form["username"] and form["email"] and form["password"]:
             try:
                 User.objects.get(username=form['username'])
                 User.objects.get(email=form['email'])
                 form['errors'] = u"Имя пользователя или почта уже заняты"
-                #return render(request, 'registration.html', {'form': form})
             except User.DoesNotExist:
                 User.objects.create_user(form['username'], form['email'], form['password'])
                 login(request, authenticate(request, username=form['username'], password=form['password']))
-                return
+                return redirect('archive')
         else:
             form['errors'] = u'Не все поля заполнены!'
         return render(request, 'registration.html', {'form': form})

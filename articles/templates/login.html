@@ -12,6 +12,7 @@
             <form action="{% url 'login'%}" method="POST">
                 {% csrf_token %}
                 <h1>Log in</h1>
+                 <p>{{ form.errors }}</p>
                 <p>
                     <label for="username" class="uname" data-icon="u" > Your email or username </label>
                     <input id="username" name="username" required="required" type="text" placeholder="Логин"/>
