@@ -90,7 +90,8 @@ def registration(request):
             try:
                 User.objects.get(username=form['username'])
                 User.objects.get(email=form['email'])
-                form['errors'] = u"Имя пользователя или почта уже заняты"
+                form['errors'] = "Логин или почта уже заняты"
+                return render(request, 'registration.html', {'form': form})
             except User.DoesNotExist:
                 User.objects.create_user(form['username'], form['email'], form['password'])
                 login(request, authenticate(request, username=form['username'], password=form['password']))
